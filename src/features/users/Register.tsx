@@ -129,7 +129,7 @@ const Register: React.FC = () => {
           sx={{ mt: 3, width: '100%' }}
         >
           <Grid container spacing={2} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <Grid item xs={8}>
+            <Grid item xs={7}>
               <TextField
                 fullWidth
                 required
@@ -151,7 +151,7 @@ const Register: React.FC = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={7}>
               <TextField
                 fullWidth
                 required
@@ -163,7 +163,7 @@ const Register: React.FC = () => {
               />
 
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={7}>
               <TextField
                 fullWidth
                 required
