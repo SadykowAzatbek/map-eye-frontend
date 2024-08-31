@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../Layout/Layout';
-import Home from '../components/UI/Home/Home';
 import Register from '../features/users/Register';
 import Login from '../features/users/Login';
 import { appRoutes } from '../utils/constants';
 import NotFound from '../components/UI/NotFound/NotFound';
+import Map from '../features/maps/Map.tsx';
 
 export const router = createBrowserRouter([
   {
@@ -13,7 +13,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: appRoutes.home,
-        element: <Home />,
+        element: <Map />,
       },
       {
         path: appRoutes.register,

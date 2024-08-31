@@ -14,9 +14,8 @@ const Layout = () => {
       </header>
       <Container
         disableGutters
-        maxWidth="xl"
+        maxWidth="xxl"
         component="main"
-        sx={{ minHeight: '100vh', pt: 4, mb: 4 }}
       >
         <Outlet />
       </Container>

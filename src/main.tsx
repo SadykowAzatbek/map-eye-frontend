@@ -10,6 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import theme from './theme.ts';
 import './index.css';
+import 'leaflet/dist/leaflet.css';
 
 addInterceptors(store);
 

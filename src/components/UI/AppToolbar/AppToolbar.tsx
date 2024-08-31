@@ -39,7 +39,7 @@ const AppToolbar = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" position="sticky" sx={{ mb: 2 }}>
+      <AppBar component="nav" position="sticky">
         <Toolbar>
           <Grid container justifyContent="space-between" alignItems="center">
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
