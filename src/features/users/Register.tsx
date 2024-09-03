@@ -118,6 +118,7 @@ const Register: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          mt: 8,
         }}
       >
         <Typography component="h1" variant="h5">

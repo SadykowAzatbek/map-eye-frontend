@@ -43,11 +43,7 @@ const AppToolbar = () => {
         <Toolbar>
           <Grid container justifyContent="space-between" alignItems="center">
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              {!user ? (
-                <Link to={appRoutes.register}>Map eye</Link>
-              ) :
-                <Link to={appRoutes.home}>Map eye</Link>
-              }
+              <Link to={appRoutes.home}>Map eye</Link>
             </Typography>
             <Box sx={{ mr: 2, display: { xs: 'none', sm: 'block' } }}>
               {user ? <UserMenu user={user} /> : <GuestMenu />}
