@@ -28,8 +28,17 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   return (
     <>
-      <Stack direction="row" alignItems="center">
-        <Typography id="username" color="inherit" onClick={handleClick}>
+      <Stack direction="row" alignItems="center" sx={{
+        background: "#fff",
+        p: "0px 12px",
+        borderRadius: 1,
+        boxShadow: "1px 1px 1px 1px rgba(34, 60, 80, 0.3)",
+      }}>
+        <Typography
+          id="username"
+          color="inherit"
+          onClick={handleClick}
+        >
           {user.displayName}
         </Typography>
         <IconButton

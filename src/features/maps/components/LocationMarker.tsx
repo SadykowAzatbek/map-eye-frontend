@@ -44,9 +44,8 @@ const LocationMarker = () => {
       <Button
         onClick={handleButtonClick}
         sx={{
-          position: 'absolute',
-          top: '80px',
-          left: '4px',
+          mt: 9,
+          ml: 2,
           zIndex: 400,
           minWidth: 'auto',
           border: position ? '1px solid #000' : '1px solid rgba(0, 0, 0, 0.2)',

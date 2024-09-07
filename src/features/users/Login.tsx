@@ -80,7 +80,7 @@ const Login: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <Container component="main" maxWidth="lg">
+    <Container component="main" maxWidth="lg" sx={{ mt: 7 }}>
       <Grid container alignItems="center">
         <Grid item xs={12}>
           <Box

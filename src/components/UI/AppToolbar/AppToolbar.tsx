@@ -15,6 +15,7 @@ import { NavLink } from 'react-router-dom';
 import DrawerMenu from './DrawerMenu';
 import GuestMenu from './GuestMenu';
 import { appRoutes } from '../../../utils/constants.ts';
+import iconAddInstitutions from '../../../../public/createLocation.png';
 
 const Link = styled(NavLink)({
   color: 'inherit',
@@ -39,13 +40,42 @@ const AppToolbar = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" position="sticky">
+      <AppBar
+        component="nav"
+        sx={{
+          backgroundColor: user ? 'transparent' : '',
+          boxShadow: user ? 'none' : '',
+          color: !user ? '#fff' : '',
+        }}
+      >
         <Toolbar>
           <Grid container justifyContent="space-between" alignItems="center">
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <Link to={appRoutes.home}>Map eye</Link>
+              <Link
+                to={appRoutes.home}
+                sx={{
+                  background: user && "#fff",
+                  p: "12px",
+                  borderRadius: 2,
+                  boxShadow: user && "1px 1px 1px 1px rgba(34, 60, 80, 0.3)",
+                  fontSize: "18px",
+                }}
+              >
+                Map eye
+              </Link>
             </Typography>
-            <Box sx={{ mr: 2, display: { xs: 'none', sm: 'block' } }}>
+            <Box sx={{ mr: 2, display: "flex" }}>
+              <Link to={appRoutes.createInstitution} sx={{ mt: 1, mr: 1 }}>
+                <img
+                  src={iconAddInstitutions}
+                  alt="Error photo"
+                  title="Создать заведение"
+                  style={{
+                    width: "25px",
+                    height: "25px",
+                  }}
+                />
+              </Link>
               {user ? <UserMenu user={user} /> : <GuestMenu />}
             </Box>
           </Grid>
