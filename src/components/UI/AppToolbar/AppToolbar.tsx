@@ -16,6 +16,8 @@ import DrawerMenu from './DrawerMenu';
 import GuestMenu from './GuestMenu';
 import { appRoutes } from '../../../utils/constants.ts';
 import iconAddInstitutions from '../../../../public/createLocation.png';
+import iconSearch from '../../../../public/searchIcon.png';
+import '../../../component.css';
 
 const Link = styled(NavLink)({
   color: 'inherit',
@@ -64,24 +66,37 @@ const AppToolbar = () => {
                 Map eye
               </Link>
             </Typography>
-            <Box sx={{ mr: 2, display: "flex" }}>
-              <Link to={appRoutes.createInstitution} sx={{ mt: 1, mr: 1 }}>
-                <img
-                  src={iconAddInstitutions}
-                  alt="Error photo"
-                  title="Создать заведение"
-                  style={{
-                    width: "25px",
-                    height: "25px",
-                  }}
-                />
-              </Link>
-              {user ? <UserMenu user={user} /> : <GuestMenu />}
+            <Box sx={{ mr: 2, display: "flex", gap: 1 }}>
+              <Typography className="main-nav" component="div">
+                <Link to={appRoutes.profile} sx={{ mt: 1 }}>
+                  <img
+                    src={iconSearch}
+                    alt="Error photo"
+                    title="Поиск"
+                    style={{
+                      width: "25px",
+                      height: "25px",
+                    }}
+                  />
+                </Link>
+                <Link to={appRoutes.createInstitution} sx={{mt: 1, mr: 1}}>
+                  <img
+                    src={iconAddInstitutions}
+                    alt="Error photo"
+                    title="Создать заведение"
+                    style={{
+                      width: "25px",
+                      height: "25px",
+                    }}
+                  />
+                </Link>
+              </Typography>
+              {user ? <UserMenu user={user}/> : <GuestMenu/>}
             </Box>
           </Grid>
         </Toolbar>
       </AppBar>
-      <DrawerMenu open={mobileOpen} toggleDrawer={handleDrawerToggle} />
+      <DrawerMenu open={mobileOpen} toggleDrawer={handleDrawerToggle}/>
     </Box>
   );
 };

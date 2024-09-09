@@ -16,7 +16,8 @@ const Map = () => {
     <>
       <MapContainer
         center={position}
-        zoom={13}
+        zoom={20}
+        minZoom={5}
         style={{ height: "100vh", width: "100%" }}
         zoomControl={false}
       >

@@ -38,6 +38,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           id="username"
           color="inherit"
           onClick={handleClick}
+          sx={{ cursor: "pointer" }}
         >
           {user.displayName}
         </Typography>
