@@ -8,9 +8,9 @@ const Map = () => {
     console.log(data);
   };
 
-  void searchStreet('Очаковская 131');
+  void searchStreet('Москва');
 
-  const position: [number, number] = [42.8761, 74.6001];
+  const position: [number, number] = [55.7505412, 37.6174782];
 
   return (
     <>

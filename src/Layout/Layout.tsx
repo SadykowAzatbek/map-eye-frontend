@@ -13,8 +13,8 @@ const Layout = () => {
         <AppToolbar />
       </header>
       <Container
+        maxWidth={false}
         disableGutters
-        maxWidth="xxl"
         component="main"
       >
         <Outlet />

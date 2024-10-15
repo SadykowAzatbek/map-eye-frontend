@@ -9,6 +9,7 @@ import {
   persistStore,
 } from 'redux-persist';
 import { PURGE, REGISTER, REHYDRATE } from 'redux-persist/es/constants';
+import {institutionReducer} from '../features/institutions/institutionSlice.ts';
 
 const usersPersistConfig = {
   key: 'techGear:users',
@@ -18,6 +19,7 @@ const usersPersistConfig = {
 
 const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersReducer),
+  institutions: institutionReducer,
 });
 
 export const store = configureStore({
