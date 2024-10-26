@@ -4,15 +4,17 @@ import {
   FormControlLabel,
   Button,
   Typography,
-  Box
+  Box,
+  debounce,
 } from '@mui/material';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import { Institution } from '../../types/types.Institution';
 import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import { useAppDispatch } from '../../app/hooks.ts';
 import { createInstitution } from './institutionsThunk.ts';
+import axiosApi from '../../utils/axiosApi.ts';
 
 const CreateInstitution = () => {
   const [state, setState] = useState<Institution>({
@@ -65,6 +67,20 @@ const CreateInstitution = () => {
     address: '',
     coordinates: [0, 0],
   });
+
+  const searchStreet = async (query: string) => {
+    const response = await axiosApi.get(`https://nominatim.openstreetmap.org/search?q=${query}&format=json`);
+    const filterData = response.data.filter((elem) => elem.addresstype === 'building');
+    console.log(filterData);
+  };
+
+  const debouncedSearchStreet = debounce(searchStreet, 500);
+
+  useEffect(() => {
+    if (state.address) {
+      debouncedSearchStreet(state.address);
+    }
+  }, [state.address]);
 
   const [everyoneTime, setEveryoneTime] = useState({
     start: dayjs('00:00', 'HH:mm'),
@@ -144,14 +160,16 @@ const CreateInstitution = () => {
         <TextField
           label="Описание"
           name="description"
-          type="text"
+          multiline //input становится textarea
+          rows={8} //Кол-во видимых строк
+          variant="outlined"
           value={state.description}
           onChange={inputChangeHandler}
         />
 
         <TextField
           required
-          label="Адрес заведение"
+          label="Адрес (Город, улица, здание)"
           name="address"
           type="text"
           value={state.address}

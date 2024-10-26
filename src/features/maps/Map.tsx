@@ -2,13 +2,13 @@ import { MapContainer, TileLayer } from 'react-leaflet';
 import LocationMarker from './components/LocationMarker.tsx';
 
 const Map = () => {
-  const searchStreet = async (query: string) => {
-    const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json`);
-    const data = await response.json();
-    console.log(data);
-  };
-
-  void searchStreet('Москва');
+  // const searchStreet = async (query: string) => {
+  //   const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json`);
+  //   const data = await response.json();
+  //   console.log(data);
+  // };
+  //
+  // void searchStreet('Москва');
 
   const position: [number, number] = [55.7505412, 37.6174782];
 
