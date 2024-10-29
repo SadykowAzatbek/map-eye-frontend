@@ -15,6 +15,13 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useAppDispatch } from '../../app/hooks.ts';
 import { createInstitution } from './institutionsThunk.ts';
 import axiosApi from '../../utils/axiosApi.ts';
+import Search from '../../components/Searchs/Search.tsx';
+
+interface searchTable {
+  displayName: string;
+  lat: string;
+  lon: string;
+}
 
 const CreateInstitution = () => {
   const [state, setState] = useState<Institution>({
@@ -68,10 +75,30 @@ const CreateInstitution = () => {
     coordinates: [0, 0],
   });
 
+  console.log(state);
+
+  const [searchResult, setSearchResult] = useState<searchTable[]>([]);
+
   const searchStreet = async (query: string) => {
     const response = await axiosApi.get(`https://nominatim.openstreetmap.org/search?q=${query}&format=json`);
-    const filterData = response.data.filter((elem) => elem.addresstype === 'building');
-    console.log(filterData);
+    const filterData = response.data
+      .filter((elem) => elem.addresstype === 'building')
+      .map((elem) => ({
+        displayName: elem.display_name, // Переименование ключа
+        lat: elem.lat,
+        lon: elem.lon,
+      }));
+
+    if (filterData.length > 2) {
+      setState((prevState) => ({
+        ...prevState,
+        coordinates: [
+          parseFloat(filterData[0].lat),
+          parseFloat(filterData[0].lon),
+        ],
+      }));
+    }
+    setSearchResult(filterData);
   };
 
   const debouncedSearchStreet = debounce(searchStreet, 500);
@@ -134,6 +161,13 @@ const CreateInstitution = () => {
     }
   };
 
+  const onClickAddress = (value: string) => {
+    setState((prevState) => ({
+      ...prevState,
+      address: value,
+    }));
+  };
+
   const formSubmitHandler = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -167,19 +201,27 @@ const CreateInstitution = () => {
           onChange={inputChangeHandler}
         />
 
-        <TextField
-          required
-          label="Адрес (Город, улица, здание)"
-          name="address"
-          type="text"
-          value={state.address}
-          onChange={inputChangeHandler}
-        />
+        <div>
+          <TextField
+            fullWidth
+            required
+            label="Адрес заведение (Улица, номер здании)"
+            name="address"
+            type="text"
+            value={state.address}
+            onChange={inputChangeHandler}
+          />
+          {searchResult.map((elem, i) => (
+            elem.displayName !== state.address &&
+            <Search key={i} displayName={elem.displayName} onClick={() => onClickAddress(elem.displayName)} />
+          ))}
+        </div>
+        Добавить рабочий номер телефона (необезательное поле)
       </div>
 
       <div className="form-block">
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Typography component="div" sx={{ mb: 3 }}>Задать время выбранным дням:</Typography>
+          <Typography component="div" sx={{ mb: 3 }}>Задать время рабочим дням:</Typography>
           <TimePicker
             label="Начало рабочего дня"
             value={everyoneTime.start}
@@ -197,7 +239,7 @@ const CreateInstitution = () => {
         <Typography component="div" sx={{ mt: 3 }}>Рабочие дни:</Typography>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           {state.schedule.map((elem, index) => (
-            <div key={elem.day + Math.random()} className="form-time">
+            <div key={elem.day} className="form-time">
               <FormControlLabel
                 key={elem.day}
                 control={
