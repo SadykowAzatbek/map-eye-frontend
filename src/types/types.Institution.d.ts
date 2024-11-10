@@ -11,6 +11,11 @@ export interface Institution {
   }[];
   address: string;
   coordinates: [number, number];
+  phoneNumber: {
+    id: number;
+    number: string;
+    internationalCode: string;
+  }[];
 }
 
 export interface InstitutionTypes {
