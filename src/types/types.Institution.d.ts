@@ -15,6 +15,13 @@ export interface Institution {
     id: number;
     number: string;
     internationalCode: string;
+    phoneError: boolean;
+    socialOpen: boolean;
+    socialMedia: {
+      name: string;
+      theres: boolean;
+      logo: string;
+    }[];
   }[];
 }
 

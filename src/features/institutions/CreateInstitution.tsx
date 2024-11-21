@@ -17,7 +17,13 @@ import { createInstitution } from './institutionsThunk.ts';
 import axiosApi from '../../utils/axiosApi.ts';
 import Search from '../../components/Searchs/Search.tsx';
 import PhoneInput, { CountryData } from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css'; // Стили для PhoneInput
+import 'react-phone-input-2/lib/style.css';
+import SocialMediaPhoneNumber from './components/SocialMediaPhoneNumber.tsx'; // Стили для PhoneInput
+import phone from '../../../public/PHONE.png';
+import whatsapp from '../../../public/whatsapp.png';
+import telegram from '../../../public/telegram.png';
+import facebook from '../../../public/facebook.png';
+import instagram from '../../../public/instagram.png';
 
 interface searchTable {
   displayName: string;
@@ -80,12 +86,40 @@ const CreateInstitution = () => {
         id: Date.now(),
         number: '',
         internationalCode: '',
-      }
+        phoneError: false,
+        socialOpen: false,
+        socialMedia: [
+          {
+            name: 'phone',
+            theres: true,
+            logo: phone,
+          },
+          {
+            name: 'whatsapp',
+            theres: false,
+            logo: whatsapp,
+          },
+          {
+            name: 'telegram',
+            theres: false,
+            logo: telegram,
+          },
+          {
+            name: 'facebook',
+            theres: false,
+            logo: facebook,
+          },
+          {
+            name: 'instagram',
+            theres: false,
+            logo: instagram,
+          },
+        ],
+      },
     ],
   });
   console.log(state);
   const [searchResult, setSearchResult] = useState<searchTable[]>([]);
-  const [phoneError, setPhoneError] = useState(false);
 
   const searchStreet = async (query: string) => {
     const response = await axiosApi.get(`https://nominatim.openstreetmap.org/search?q=${query}&format=json`);
@@ -184,10 +218,20 @@ const CreateInstitution = () => {
     console.log(`Максимальная длина номера для кода страны: ${maxLength}, - ${country.dialCode}`);
 
     if (value.length === maxLength) {
-      setPhoneError(true);
+      setState((prevState) => ({
+        ...prevState,
+        phoneNumber: prevState.phoneNumber.map((item, i) =>
+          i === index ? { ...item, phoneError: true } : item
+        ),
+      }));
       console.log(value, value.length, 'Тут полная длина');
     } else {
-      setPhoneError(false);
+      setState((prevState) => ({
+        ...prevState,
+        phoneNumber: prevState.phoneNumber.map((item, i) =>
+          i === index ? { ...item, phoneError: false } : item
+        ),
+      }));
       console.log(value, value.length, 'Тут не полная длина');
     }
 
@@ -204,6 +248,35 @@ const CreateInstitution = () => {
       id: Date.now(), // Устанавливаем уникальный id
       number: '',
       internationalCode: '',
+      phoneError: false,
+      socialOpen: false,
+      socialMedia: [
+        {
+          name: 'phone',
+          theres: true,
+          logo: phone,
+        },
+        {
+          name: 'whatsapp',
+          theres: false,
+          logo: whatsapp,
+        },
+        {
+          name: 'telegram',
+          theres: false,
+          logo: telegram,
+        },
+        {
+          name: 'facebook',
+          theres: false,
+          logo: facebook,
+        },
+        {
+          name: 'instagram',
+          theres: false,
+          logo: instagram,
+        },
+      ],
     };
 
     setState((prevState)=> ({
@@ -216,6 +289,15 @@ const CreateInstitution = () => {
     setState((prevState) => ({
       ...prevState,
       phoneNumber: prevState.phoneNumber.filter((phone) => phone.id !== id),
+    }));
+  };
+
+  const openSocialList = (index: number) => {
+    setState((prevState) => ({
+      ...prevState,
+      phoneNumber: prevState.phoneNumber.map((item, i) =>
+        i === index ? { ...item, socialOpen: !item.socialOpen } : item
+      )
     }));
   };
 
@@ -269,7 +351,7 @@ const CreateInstitution = () => {
         </div>
 
         <div>
-          <Button type="button" onClick={addNewPhone}>Добавить номер телефона</Button>
+          <Button type="button" onClick={addNewPhone}>Добавить номер телефона +</Button>
           {state.phoneNumber.map((elem, index) => (
             <div key={elem.id} className="phone-block">
               <PhoneInput
@@ -278,11 +360,21 @@ const CreateInstitution = () => {
                 onChange={(value, country: CountryData) => handlePhoneChange(value, country, index)}
                 countryCodeEditable={false}
                 inputProps={{
-                  className: `phone-input ${!phoneError ? 'error-border' : 'phone-input'}`,
+                  className: `phone-input ${!elem.phoneError ? 'error-border' : 'phone-input'}`,
                 }}
               />
+              <div onClick={() => openSocialList(index)}>
+                LOL
+                {elem.socialMedia.map((socialItem, i) => (
+                  <SocialMediaPhoneNumber
+                    key={i}
+                    name={socialItem.name}
+                    logo={socialItem.logo}
+                    open={elem.socialOpen}
+                  />
+                ))}
+              </div>
               <Button type="button" onClick={() => deletePhone(elem.id)}>Удалить</Button>
-              {/*<Typography variant="h6" component="div" className="error-text">ssss</Typography>*/}
             </div>
           ))}
         </div>

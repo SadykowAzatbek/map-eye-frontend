@@ -78,7 +78,7 @@
 }
 
 .phone-input.error-border:hover:not(:focus) {
-  border: 1px solid #ff0000; /* Цвет границы при наведении */
+  border: 1px solid #ff0000; /* Цвет границы при наведении без фокуса*/
 }
 
 .phone-input.error-border:focus {
@@ -94,4 +94,19 @@
   display: flex;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.social-media-style {
+  display: flex;
+  align-items: center;
+  /*border: 1px solid #000;*/
+}
+
+.social-media-style .no-img {
+  display: none;
+}
+
+.social-media-style img {
+  width: 36px;
+  margin: 2px;
 }

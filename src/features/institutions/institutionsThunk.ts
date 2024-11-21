@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import {Institution, InstitutionTypes} from '../../types/types.Institution';
+import { Institution, InstitutionTypes } from '../../types/types.Institution';
 import { serverRoute } from '../../utils/constants.ts';
 import axiosApi from '../../utils/axiosApi.ts';
 
