@@ -92,8 +92,16 @@
 
 .phone-block {
   display: flex;
+  align-items: center;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.main-social-block {
+  display: flex;
+  border: 2px solid #000;
+  border-radius: 5px;
+  margin-right: 10px;
 }
 
 .social-media-style {
@@ -109,4 +117,20 @@
 .social-media-style img {
   width: 36px;
   margin: 2px;
+}
+
+.open-close-style {
+  display: flex;
+  align-items: center;
+  padding: 8px 8px;
+  border: 2px solid #000;
+  border-radius: 10px;
+}
+
+.open-close-margin {
+  margin-right: 10px;
+}
+
+.open-close-new-margin {
+  margin-right: 3px;
 }

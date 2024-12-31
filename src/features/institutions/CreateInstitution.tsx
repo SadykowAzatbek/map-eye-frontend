@@ -5,9 +5,9 @@ import {
   Button,
   Typography,
   Box,
-  debounce,
+  debounce, Tooltip,
 } from '@mui/material';
-import {ChangeEvent, FormEvent, useEffect, useState} from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { Institution } from '../../types/types.Institution';
 import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -19,11 +19,13 @@ import Search from '../../components/Searchs/Search.tsx';
 import PhoneInput, { CountryData } from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import SocialMediaPhoneNumber from './components/SocialMediaPhoneNumber.tsx'; // Стили для PhoneInput
-import phone from '../../../public/PHONE.png';
+import phone from '../../../public/2121.png';
 import whatsapp from '../../../public/whatsapp.png';
 import telegram from '../../../public/telegram.png';
 import facebook from '../../../public/facebook.png';
 import instagram from '../../../public/instagram.png';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 interface searchTable {
   displayName: string;
@@ -301,6 +303,20 @@ const CreateInstitution = () => {
     }));
   };
 
+  const selectedSocialMedia = (phoneIndex: number, socialIndex: number) => {
+    setState((prevState) => ({
+      ...prevState,
+      phoneNumber: prevState.phoneNumber.map((phone, i) =>
+        i === phoneIndex ? {
+          ...phone,
+          socialMedia: phone.socialMedia.map((social, j) =>
+            j === socialIndex ? { ...social, theres: !social.theres } : social
+          ),
+        } : phone
+      ),
+    }));
+  };
+
   const formSubmitHandler = async (event: FormEvent) => {
     event.preventDefault();
 
@@ -322,6 +338,12 @@ const CreateInstitution = () => {
           type="text"
           value={state.name}
           onChange={inputChangeHandler}
+          error={state.name.trim() === '' && state.name.includes(' ')} // Выводит ошибку если строка состоит из пробелов
+          helperText={
+            state.name.trim() === '' && state.name.includes(' ')
+              ? 'Поле не должно быть пустым или содержать только пробелы!'
+              : ''
+          }
         />
 
         <TextField
@@ -343,6 +365,12 @@ const CreateInstitution = () => {
             type="text"
             value={state.address}
             onChange={inputChangeHandler}
+            error={state.address.trim() === '' && state.address.includes(' ')}
+            helperText={
+              state.name.trim() === '' && state.name.includes(' ')
+                ? 'Поле не должно быть пустым!'
+                : ''
+            }
           />
           {searchResult.map((elem, i) => (
             elem.displayName !== state.address &&
@@ -363,31 +391,42 @@ const CreateInstitution = () => {
                   className: `phone-input ${!elem.phoneError ? 'error-border' : 'phone-input'}`,
                 }}
               />
-              <div onClick={() => openSocialList(index)}>
-                LOL
+              <Tooltip title={ elem.socialOpen ? 'Скрыть' : 'Добавить соцсети'}>
+                <div
+                  onClick={() => openSocialList(index)}
+                  className={!elem.socialOpen ? 'open-close-style open-close-margin' : 'open-close-style open-close-new-margin'}
+                >
+                  {elem.socialOpen ?
+                    <KeyboardArrowLeftIcon /> :
+                    <KeyboardArrowRightIcon />
+                  }
+                </div>
+              </Tooltip>
+              {elem.socialOpen && <div className="main-social-block">
                 {elem.socialMedia.map((socialItem, i) => (
                   <SocialMediaPhoneNumber
                     key={i}
                     name={socialItem.name}
                     logo={socialItem.logo}
                     open={elem.socialOpen}
+                    selected={() => selectedSocialMedia(index, i)}
+                    selectClass={{ background: socialItem.theres ? '#32CD32' : '' }}
                   />
                 ))}
-              </div>
+              </div>}
               <Button type="button" onClick={() => deletePhone(elem.id)}>Удалить</Button>
             </div>
           ))}
         </div>
 
         <div>
-          Добавить выбор whatsapp, telegram итд.
-          Добавить еще номер и удалить
           Добавить валидацию на пустые строки.
           кнопка "отправить" должна быть неактивна
           Инфо про инпуты (зачем нужно)
           Добавить круглосуточно
           Добавить город, местонахождения
           СОСТАВИТЬ СПИСОК НОМЕРОВ СТРАН ПО НОРМ И ПО НЕ НОРМ
+          ДОБАВИТЬ ПЕРЕРЫВ
         </div>
       </div>
 
